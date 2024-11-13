@@ -1,16 +1,32 @@
-import { Button, Layout, Menu } from 'antd';
+import { Button, Layout, Menu, Switch } from 'antd';
 import { useState } from 'react';
-import { PiUsers } from "react-icons/pi";
+import { PiUsers } from 'react-icons/pi';
 import { Outlet, Link } from 'react-router-dom';
-import { MdOutlineRule } from "react-icons/md";
-import { TbMenu2 } from "react-icons/tb";
-import { CgLaptop } from "react-icons/cg";
+import { MdOutlineRule } from 'react-icons/md';
+import { TbMenu2 } from 'react-icons/tb';
+import { CgLaptop } from 'react-icons/cg';
+import {
+  MoonOutlined,
+  SunOutlined,
+} from '@ant-design/icons';
+import { useSelector, useDispatch } from 'react-redux';
+import { toggleTheme } from './state/theme/themeSlice';
+import { ConfigProvider } from 'antd';
+import { theme } from './App.Theme.js';
+import { theme as antdTheme } from 'antd';
+import "./App.css";
 
 const { Content, Header, Sider } = Layout;
 
 const App = () => {
   const [collapsed, setCollapsed] = useState(true);
+  const { mytheme } = useSelector((state) => state.theme);
+  const dispatch = useDispatch();
+
   return (
+    <ConfigProvider theme={{token: theme.token, components: theme.components, algorithm: mytheme === 'dark'
+      ? antdTheme.darkAlgorithm
+      : antdTheme.defaultAlgorithm}}>
     <Layout>
       <Sider
         trigger={null}
@@ -24,11 +40,10 @@ const App = () => {
           bottom: 0,
           background: 'none',
           overflow: 'auto',
+          padding: 10,
         }}
       >
-        <h2 style={{marginLeft: 20}}>
-          Iyde App
-        </h2>
+        <h2 style={{ marginLeft: 20 }}>Iyde App</h2>
         <Menu
           style={{ border: 'none' }}
           theme="light"
@@ -73,9 +88,16 @@ const App = () => {
               height: 64,
             }}
           />
+           <Switch
+                className=" hidden sm:inline py-1"
+                checkedChildren={<MoonOutlined />}
+                unCheckedChildren={<SunOutlined />}
+                checked={mytheme === 'light' ? true : false}
+                onClick={() => dispatch(toggleTheme())}
+              />
         </Header>
         <Content
-           style={{
+          style={{
             margin: `0 0 0 ${collapsed ? 0 : '200px'}`,
             // background: '#ebedf0',
             borderRadius: collapsed ? 0 : 20,
@@ -88,6 +110,7 @@ const App = () => {
         </Content>
       </Layout>
     </Layout>
+    </ConfigProvider>
   );
 };
 

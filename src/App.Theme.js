@@ -1,5 +1,3 @@
-import { theme as antdTheme } from 'antd';
-
 export const COLOR = {
   50: '#e0f1ff',
   100: '#b0d2ff',
@@ -71,5 +69,4 @@ export const theme = {
       linkHoverDecoration: 'underline',
     },
   },
-  algorithm: antdTheme.defaultAlgorithm,
 }
