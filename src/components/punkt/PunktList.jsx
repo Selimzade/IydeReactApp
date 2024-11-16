@@ -1,7 +1,21 @@
 import { useState, useEffect } from "react";
 import { getPunkts } from "./punktService";
+import { Table } from "antd";
 
 const PunktList = () => {
+
+  const columns = [
+    {
+      title: 'Ad',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: 'Bal',
+      dataIndex: 'point',
+      key: 'point',
+    }
+  ];
 
   const [punkts, setPunkts] = useState([]);
     
@@ -15,7 +29,7 @@ const PunktList = () => {
   }, []);
 
   return (
-    punkts.map(p => (<div key={p.id}>{p.name}</div>))
+    <Table columns={columns} dataSource={punkts} />
   )
 }
 
